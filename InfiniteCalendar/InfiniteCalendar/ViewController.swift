@@ -33,11 +33,15 @@ class ViewController: UIViewController {
         let date = Date()
         let components = Calendar.current.dateComponents([.month, .year], from: date)
         year = components.year!
-        selectedMonth = 1
+        selectedMonth = 1 //components.month!
         
         let currentDate = months[selectedMonth - 1] + "," + String(year)
         dateButton.setTitle(currentDate, for: .normal)
-        setCalenderData(year: year)
+        let isLeapYear = year%4 == 0
+        if(isLeapYear){
+            daysInMonth[1] = 29
+        }
+
     }
     
     func setCalender(_ date:  Date){
@@ -54,7 +58,10 @@ class ViewController: UIViewController {
         dateFormatter.dateFormat = "MMMM, yyyy"
         let currentDate = dateFormatter.string(from: date)
         dateButton.setTitle(currentDate, for: .normal)
-        setCalenderData(year: year)
+        let isLeapYear = year%4 == 0
+        if(isLeapYear){
+            daysInMonth[1] = 29
+        }
         
         calenderCollectionView.reloadData()
         
@@ -87,10 +94,7 @@ class ViewController: UIViewController {
     }
 
     func setCalenderData(year: Int) {
-        let isLeapYear = year%4 == 0
-        if(isLeapYear){
-            daysInMonth[1] = 29
-        }
+        
     }
     
     
@@ -130,18 +134,26 @@ class ViewController: UIViewController {
         
         var nextYearIndexPaths: [IndexPath] = []
         Array(section...sectionCount).forEach { (nextSection) in
-            let newYearDays = daysInMonth[nextSection] + getPreviousEmptyBoxes(nextSection%12, year: nextYear)
-            let days = newYearDays - 1
+            let items = daysInMonth[nextSection] + getPreviousEmptyBoxes(nextSection%12, year: nextYear)
+            let weekCount = daysOfMonth.count
+            let nextEmptyBoxes = weekCount - (items%weekCount)
+
+            let days = items + (nextEmptyBoxes == weekCount ? 0 : nextEmptyBoxes) - 1
             let indexPathItems = Array(0...days).map { (nextItem) -> IndexPath in
                 return IndexPath.init(item: nextItem, section: nextSection)
             }
             nextYearIndexPaths.append(contentsOf: indexPathItems)
         }
         
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
         calenderCollectionView.performBatchUpdates({
             calenderCollectionView.insertSections(indexSet as IndexSet)
             calenderCollectionView.insertItems(at: nextYearIndexPaths)
-        }, completion: nil)
+
+        }) { (finished) in
+            CATransaction.commit()
+        }
     }
 
 }
