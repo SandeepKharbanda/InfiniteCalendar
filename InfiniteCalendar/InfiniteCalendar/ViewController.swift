@@ -78,7 +78,9 @@ class ViewController: UIViewController {
         if let storyboard = self.storyboard{
             let popoverContentController = storyboard.instantiateViewController(identifier: "PopoverContentController") as! PopoverContentController
             popoverContentController.delegate = self
-            popoverContentController.modalPresentationStyle = UIModalPresentationStyle.popover
+            popoverContentController.view.backgroundColor = .clear
+
+            popoverContentController.modalPresentationStyle = .popover
               popoverContentController.modalPresentationStyle = .overCurrentContext
 
             let popoverPresentationController = popoverContentController.popoverPresentationController
@@ -186,11 +188,12 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
         let date = indexPath.item + 1 - emptyBoxes
         
         if(date > 0 && date <= days){
-            calenderCell.dateLabel.text =  date == 1 ? String(date) + " " +  "\n"  + months[indexPath.section%12].prefix(3) : String(date)
+            calenderCell.dateLabel.text =  date == 1 ? String(date) + " "  + months[indexPath.section%12].prefix(3) : String(date)
+            calenderCell.tagLabel.text =  "NTH"
         }
         else {
             calenderCell.dateLabel.text =  nil
-
+            calenderCell.tagLabel.text =  nil
         }
         return calenderCell
     }
@@ -203,7 +206,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width/7.0, height: 60)
+        return CGSize(width: collectionView.frame.width/7.0, height: 80)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {

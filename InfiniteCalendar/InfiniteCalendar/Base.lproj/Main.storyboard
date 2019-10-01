@@ -48,26 +48,35 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="21" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fuV-Qf-dGJ">
-                                                    <rect key="frame" x="24" y="31" width="25" height="29"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                                    <rect key="frame" x="27.5" y="15" width="18.5" height="21.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NTH" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uuc-32-2h4">
+                                                    <rect key="frame" x="15" y="41.5" width="43" height="25.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="Uuc-32-2h4" firstAttribute="top" secondItem="fuV-Qf-dGJ" secondAttribute="bottom" constant="5" id="0JA-S8-eaa"/>
+                                                <constraint firstItem="fuV-Qf-dGJ" firstAttribute="top" secondItem="tR5-Sf-Vk3" secondAttribute="top" constant="15" id="2V6-Sc-f3J"/>
                                                 <constraint firstItem="wDI-L3-dUM" firstAttribute="top" secondItem="tR5-Sf-Vk3" secondAttribute="top" id="7MP-R6-rU5"/>
-                                                <constraint firstItem="fuV-Qf-dGJ" firstAttribute="centerY" secondItem="tR5-Sf-Vk3" secondAttribute="centerY" id="G48-xP-dw5"/>
                                                 <constraint firstAttribute="trailing" secondItem="UeJ-C3-nHd" secondAttribute="trailing" id="LQ8-wk-XFE"/>
                                                 <constraint firstItem="UeJ-C3-nHd" firstAttribute="leading" secondItem="wDI-L3-dUM" secondAttribute="trailing" id="eyk-UK-aTu"/>
                                                 <constraint firstItem="fuV-Qf-dGJ" firstAttribute="centerX" secondItem="tR5-Sf-Vk3" secondAttribute="centerX" id="pKu-4M-p9k"/>
                                                 <constraint firstItem="wDI-L3-dUM" firstAttribute="leading" secondItem="tR5-Sf-Vk3" secondAttribute="leading" id="sF4-Cy-37H"/>
                                                 <constraint firstAttribute="bottom" secondItem="wDI-L3-dUM" secondAttribute="bottom" id="uQV-zd-kb9"/>
+                                                <constraint firstItem="Uuc-32-2h4" firstAttribute="centerX" secondItem="fuV-Qf-dGJ" secondAttribute="centerX" id="xjV-i1-NB8"/>
                                                 <constraint firstAttribute="bottom" secondItem="UeJ-C3-nHd" secondAttribute="bottom" id="yyd-j1-Re7"/>
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="73" height="91"/>
                                         <connections>
                                             <outlet property="dateLabel" destination="fuV-Qf-dGJ" id="kOL-YH-Usu"/>
+                                            <outlet property="tagLabel" destination="Uuc-32-2h4" id="YfA-eZ-q9j"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -178,43 +187,56 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" translatesAutoresizingMaskIntoConstraints="NO" id="VMc-6J-YOc">
-                                <rect key="frame" x="0.0" y="44" width="414" height="216"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aDy-47-Gu4">
+                                <rect key="frame" x="60" y="320" width="294" height="266"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XzY-tU-jNO">
+                                        <rect key="frame" x="0.0" y="215" width="294" height="1"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="TaF-Ze-htH"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Lc-0m-uPl">
+                                        <rect key="frame" x="0.0" y="216" width="294" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="6bX-vH-nj2"/>
+                                        </constraints>
+                                        <state key="normal" title="Done">
+                                            <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="datePickerDoneButtonTapped:" destination="LUO-sh-EYI" eventType="touchUpInside" id="jCP-kP-FYo"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="216" id="NaI-MI-Kax"/>
+                                    <constraint firstAttribute="trailing" secondItem="XzY-tU-jNO" secondAttribute="trailing" id="A0P-1s-Ff7"/>
+                                    <constraint firstItem="XzY-tU-jNO" firstAttribute="leading" secondItem="aDy-47-Gu4" secondAttribute="leading" id="Asi-4e-w6a"/>
+                                    <constraint firstItem="XzY-tU-jNO" firstAttribute="top" secondItem="aDy-47-Gu4" secondAttribute="top" constant="215" id="Foa-yk-FjQ"/>
+                                    <constraint firstAttribute="trailing" secondItem="1Lc-0m-uPl" secondAttribute="trailing" id="GDP-3W-jlX"/>
+                                    <constraint firstItem="1Lc-0m-uPl" firstAttribute="top" secondItem="XzY-tU-jNO" secondAttribute="bottom" id="Wcn-w6-chx"/>
+                                    <constraint firstAttribute="bottom" secondItem="1Lc-0m-uPl" secondAttribute="bottom" id="boU-xn-a83"/>
+                                    <constraint firstItem="1Lc-0m-uPl" firstAttribute="leading" secondItem="aDy-47-Gu4" secondAttribute="leading" id="vaf-Su-wJY"/>
                                 </constraints>
-                            </datePicker>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Lc-0m-uPl">
-                                <rect key="frame" x="0.0" y="260" width="414" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="9SG-Uk-bH8"/>
-                                </constraints>
-                                <state key="normal" title="Done">
-                                    <color key="titleColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="datePickerDoneButtonTapped:" destination="LUO-sh-EYI" eventType="touchUpInside" id="jCP-kP-FYo"/>
-                                </connections>
-                            </button>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="1Lc-0m-uPl" firstAttribute="leading" secondItem="GcZ-lO-I2a" secondAttribute="leading" id="8Vk-Vs-0zA"/>
-                            <constraint firstItem="VMc-6J-YOc" firstAttribute="top" secondItem="GcZ-lO-I2a" secondAttribute="top" id="SVZ-gz-49d"/>
-                            <constraint firstItem="VMc-6J-YOc" firstAttribute="leading" secondItem="NMA-aX-qig" secondAttribute="leading" id="h1m-7P-wqe"/>
-                            <constraint firstItem="GcZ-lO-I2a" firstAttribute="trailing" secondItem="VMc-6J-YOc" secondAttribute="trailing" id="h5w-8U-qfQ"/>
-                            <constraint firstItem="1Lc-0m-uPl" firstAttribute="top" secondItem="VMc-6J-YOc" secondAttribute="bottom" id="ppB-Bh-Cqi"/>
-                            <constraint firstItem="GcZ-lO-I2a" firstAttribute="trailing" secondItem="1Lc-0m-uPl" secondAttribute="trailing" id="r4N-cv-evk"/>
+                            <constraint firstItem="GcZ-lO-I2a" firstAttribute="trailing" secondItem="aDy-47-Gu4" secondAttribute="trailing" constant="60" id="Ni4-c0-Lgj"/>
+                            <constraint firstItem="aDy-47-Gu4" firstAttribute="leading" secondItem="GcZ-lO-I2a" secondAttribute="leading" constant="60" id="Xot-9B-qRu"/>
+                            <constraint firstItem="aDy-47-Gu4" firstAttribute="centerY" secondItem="GcZ-lO-I2a" secondAttribute="centerY" id="zxp-q2-Mp3"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="GcZ-lO-I2a"/>
                     </view>
                     <connections>
-                        <outlet property="datepicker" destination="VMc-6J-YOc" id="SJp-yk-kXl"/>
+                        <outlet property="datepickerView" destination="aDy-47-Gu4" id="zIg-Rn-Y6N"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eBn-EY-CWX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="136" y="-540"/>
+            <point key="canvasLocation" x="134.78260869565219" y="-540.40178571428567"/>
         </scene>
     </scenes>
 </document>

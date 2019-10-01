@@ -11,5 +11,6 @@ import UIKit
 class CalenderViewCell: UICollectionViewCell {
     
     @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var tagLabel: UILabel!
 
 }

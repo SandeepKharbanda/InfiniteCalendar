@@ -15,6 +15,7 @@
 		2C2C6539233EAEDB00EB956B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C2C6537233EAEDB00EB956B /* LaunchScreen.storyboard */; };
 		2C2C6541233EAEFB00EB956B /* PopoverContentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2C6540233EAEFB00EB956B /* PopoverContentController.swift */; };
 		2C2C6543233EAF0C00EB956B /* CalenderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2C6542233EAF0C00EB956B /* CalenderViewCell.swift */; };
+		2C65F3CF234355F300465B19 /* MonthYearPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C65F3CE234355F200465B19 /* MonthYearPickerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		2C2C653A233EAEDB00EB956B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2C2C6540233EAEFB00EB956B /* PopoverContentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopoverContentController.swift; sourceTree = "<group>"; };
 		2C2C6542233EAF0C00EB956B /* CalenderViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalenderViewCell.swift; sourceTree = "<group>"; };
+		2C65F3CE234355F200465B19 /* MonthYearPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonthYearPickerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 				2C2C652E233EAEDB00EB956B /* SceneDelegate.swift */,
 				2C2C6542233EAF0C00EB956B /* CalenderViewCell.swift */,
 				2C2C6540233EAEFB00EB956B /* PopoverContentController.swift */,
+				2C65F3CE234355F200465B19 /* MonthYearPickerView.swift */,
 				2C2C6530233EAEDB00EB956B /* ViewController.swift */,
 				2C2C6532233EAEDB00EB956B /* Main.storyboard */,
 				2C2C6535233EAEDB00EB956B /* Assets.xcassets */,
@@ -144,6 +147,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C65F3CF234355F300465B19 /* MonthYearPickerView.swift in Sources */,
 				2C2C6543233EAF0C00EB956B /* CalenderViewCell.swift in Sources */,
 				2C2C6531233EAEDB00EB956B /* ViewController.swift in Sources */,
 				2C2C652D233EAEDB00EB956B /* AppDelegate.swift in Sources */,

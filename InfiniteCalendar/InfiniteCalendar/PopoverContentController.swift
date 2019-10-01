@@ -14,22 +14,52 @@ protocol PopoverContentControllerDelegate: class {
 
 class PopoverContentController: UIViewController {
 
-    @IBOutlet weak var datepicker: UIDatePicker!
+    @IBOutlet weak var datepickerView: UIView!
 
     weak var delegate: PopoverContentControllerDelegate?
     
+    private var month: Int!
+    private var year: Int!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        datepicker.datePickerMode = .date
-        datepicker.maximumDate = Date()
-        datepicker.date = Date()
+        datepickerView.layer.cornerRadius = 10
+        
+        let shadowPath = UIBezierPath(rect: datepickerView.bounds)
+        datepickerView.layer.masksToBounds = false
+        datepickerView.layer.shadowColor = UIColor.black.cgColor
+        datepickerView.layer.shadowOffset = CGSize(width: 0, height: 0.5)
+        datepickerView.layer.shadowOpacity = 0.5
+        datepickerView.layer.shadowPath = shadowPath.cgPath
+
+        
+        let expiryDatePicker = MonthYearPickerView()
+        
+        let date = Date()
+        let components = Calendar.current.dateComponents([.month, .year], from: date)
+        
+        self.month = components.month!
+        self.year = components.year!
+        expiryDatePicker.month = self.month
+        expiryDatePicker.year = self.year
+        
+        expiryDatePicker.onDateSelected = { (month: Int, year: Int) in
+            self.month = month
+            self.year = year
+        }
+        datepickerView.addSubview(expiryDatePicker)
+        
+        
 
     }
     
     @IBAction func datePickerDoneButtonTapped(_ sender: UIButton) {
-        delegate?.datePickerDoneButtonTapped(datepicker.date, popOverController: self)
+        let pickerDate = String(self.month) + "-" + String(self.year)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-yyyy"
+        delegate?.datePickerDoneButtonTapped(dateFormatter.date(from: pickerDate) ?? Date(), popOverController: self)
     }
     
 
