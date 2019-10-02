@@ -17,19 +17,18 @@ class ViewController: UIViewController {
     
     let defaultDaysInMonth: [Int] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     var daysInMonth: [Int] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-    let daysOfMonth: [String] = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    let daysOfWeek: [String] = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
-    var calenderMonth = 12
     var selectedMonth = 0
+    
+    var calenderData: [[String: Int]] = []
 
     var year = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
-        calenderMonth = 12
-        
+                
         let date = Date()
         let components = Calendar.current.dateComponents([.month, .year], from: date)
         year = components.year!
@@ -41,11 +40,22 @@ class ViewController: UIViewController {
         if(isLeapYear){
             daysInMonth[1] = 29
         }
+        
+        for (index, _) in daysInMonth.enumerated(){
+            let appendYear = index/12
+            let items = daysInMonth[index]
+            let previousEmptyBox = getPreviousEmptyBoxes(index%12, year: year + appendYear)
+            let weekCount = daysOfWeek.count
+            let nextEmptyBoxes = weekCount - (items%weekCount)
+            let totalCount = items +  (nextEmptyBoxes == weekCount ? 0 : nextEmptyBoxes)
+
+            let data = ["items":  daysInMonth[index], "previousEmptyBox": previousEmptyBox, "nextEmptyBoxes": nextEmptyBoxes, "totalCount": totalCount]
+            calenderData.append(data)
+        }
 
     }
     
     func setCalender(_ date:  Date){
-        calenderMonth = 12
         
         daysInMonth.removeAll()
         daysInMonth.append(contentsOf: defaultDaysInMonth)
@@ -63,10 +73,22 @@ class ViewController: UIViewController {
             daysInMonth[1] = 29
         }
         
+        calenderData.removeAll()
+        for (index, _) in daysInMonth.enumerated(){
+            let appendYear = index/12
+            let items = daysInMonth[index]
+            let previousEmptyBox = getPreviousEmptyBoxes(index%12, year: year + appendYear)
+            let weekCount = daysOfWeek.count
+            let nextEmptyBoxes = weekCount - (items%weekCount)
+            let totalCount = items +  (nextEmptyBoxes == weekCount ? 0 : nextEmptyBoxes)
+
+            let data = ["items":  daysInMonth[index], "previousEmptyBox": previousEmptyBox, "nextEmptyBoxes": nextEmptyBoxes, "totalCount": totalCount]
+            calenderData.append(data)
+            
+        }
+        
         calenderCollectionView.reloadData()
-        
         perform(#selector(scrollToItem), with: nil, afterDelay: 0.800)
-        
     }
 
     @objc func scrollToItem() {
@@ -110,13 +132,12 @@ class ViewController: UIViewController {
         dateFormatter.dateFormat = "EEE"
         let getMonthDay = dateFormatter.string(from: dateFormatted)
         
-        let perviousMonthDayBoxes = daysOfMonth.firstIndex(of: getMonthDay) ?? -1
+        let perviousMonthDayBoxes = daysOfWeek.firstIndex(of: getMonthDay) ?? -1
         return perviousMonthDayBoxes > 0 ? perviousMonthDayBoxes : 0
     }
         
     func appendNextYearCalender(_ section: Int, _ year: Int)  {
         let nextYear = year + 1
-        calenderMonth = calenderMonth + 12
         let isLeapYear = nextYear%4 == 0
         
         var appendDays: [Int] = []
@@ -125,7 +146,17 @@ class ViewController: UIViewController {
             appendDays[1] = 29
         }
         
-        daysInMonth.append(contentsOf: appendDays) // 24 items 11 section
+        for (index, _) in appendDays.enumerated(){
+            let items = appendDays[index]
+            let previousEmptyBox = getPreviousEmptyBoxes(index%12, year: nextYear)
+            let weekCount = daysOfWeek.count
+            let nextEmptyBoxes = weekCount - (items%weekCount)
+            let totalCount = items +  (nextEmptyBoxes == weekCount ? 0 : nextEmptyBoxes)
+
+            let data = ["items":  appendDays[index], "previousEmptyBox": previousEmptyBox, "nextEmptyBoxes": nextEmptyBoxes, "totalCount": totalCount]
+            calenderData.append(data)
+            
+        }
         
         let sectionCount = section + 11
         
@@ -136,15 +167,15 @@ class ViewController: UIViewController {
         
         var nextYearIndexPaths: [IndexPath] = []
         Array(section...sectionCount).forEach { (nextSection) in
-            let items = daysInMonth[nextSection] + getPreviousEmptyBoxes(nextSection%12, year: nextYear)
-            let weekCount = daysOfMonth.count
-            let nextEmptyBoxes = weekCount - (items%weekCount)
+            if(calenderData.count > nextSection){
+                let calendarInfo = calenderData[nextSection]
+                let days = calendarInfo["totalCount"]! - 1
 
-            let days = items + (nextEmptyBoxes == weekCount ? 0 : nextEmptyBoxes) - 1
-            let indexPathItems = Array(0...days).map { (nextItem) -> IndexPath in
-                return IndexPath.init(item: nextItem, section: nextSection)
+                let indexPathItems = Array(0...days).map { (nextItem) -> IndexPath in
+                    return IndexPath.init(item: nextItem, section: nextSection)
+                }
+                nextYearIndexPaths.append(contentsOf: indexPathItems)
             }
-            nextYearIndexPaths.append(contentsOf: indexPathItems)
         }
         
         CATransaction.begin()
@@ -163,16 +194,12 @@ class ViewController: UIViewController {
 extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
         
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return calenderMonth
+        return calenderData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let appendYear = section/12
-        let items = daysInMonth[section] + getPreviousEmptyBoxes(section%12, year: year + appendYear)
-        
-        let weekCount = daysOfMonth.count
-        let nextEmptyBoxes = weekCount - (items%weekCount)
-        return items +  (nextEmptyBoxes == weekCount ? 0 : nextEmptyBoxes)
+        let calenderInfo = calenderData[section]
+        return calenderInfo["totalCount"] ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -181,12 +208,12 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
             return UICollectionViewCell()
         }
         
-        let appendYear = indexPath.section/12
-        let emptyBoxes = getPreviousEmptyBoxes(indexPath.section%12, year: year + appendYear)
+        let calenderInfo = calenderData[indexPath.section]
         
-        let days = daysInMonth[indexPath.section]
+        let emptyBoxes = calenderInfo["previousEmptyBox"] ?? 0
+        let days = calenderInfo["items"] ?? 0
         let date = indexPath.item + 1 - emptyBoxes
-        
+
         if(date > 0 && date <= days){
             calenderCell.dateLabel.text =  date == 1 ? String(date) + " "  + months[indexPath.section%12].prefix(3) : String(date)
             calenderCell.tagLabel.text =  "NTH"
@@ -200,7 +227,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         let appendYear = indexPath.section/12
-        if(indexPath.section == calenderMonth - 1 && indexPath.item == 0){
+        if(indexPath.section == calenderData.count - 1 && indexPath.item == 0){
             appendNextYearCalender(indexPath.section + 1, year + appendYear)
         }
     }
